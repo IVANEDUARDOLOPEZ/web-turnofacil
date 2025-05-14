@@ -166,3 +166,23 @@ p {
   font-weight: normal;
   color: #555;
 }
+/* Botón de cancelar */
+button {
+  padding: 8px 15px;
+  background-color: #d9534f;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #c9302c; /* cambio de color al pasar el ratón */
+}
+
+button:active {
+  background-color: #ac2925; /* color de fondo al hacer clic */
+}

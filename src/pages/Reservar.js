@@ -5,6 +5,7 @@ import { collection, addDoc, getDocs, query, orderBy, where } from 'firebase/fir
 import { doc, deleteDoc } from 'firebase/firestore';
 import './Reservar.css';
 
+
 function Reservar() {
   const { usuario } = useUsuario(); // Aquí obtenemos el usuario
   const [servicio, setServicio] = useState('');
@@ -35,16 +36,6 @@ function Reservar() {
     }
   };
 
-  // Función para cancelar una reserva
-  const cancelarReserva = async (id) => {
-    try {
-      await deleteDoc(doc(db, 'reservas', id));
-      console.log("Reserva eliminada correctamente.");
-      cargarReservas(); // Volver a cargar las reservas después de eliminar
-    } catch (error) {
-      console.error("Error al cancelar la reserva:", error);
-    }
-  };
 
   // Función para cargar las reservas desde Firestore
   const cargarReservas = async () => {
@@ -105,7 +96,7 @@ function Reservar() {
         <button type="submit">Reservar</button>
       </form>
 
-     
+        
     </div>
   );
 }
