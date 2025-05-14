@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { useUsuario } from './context/UsuarioContext';
+import Login from './pages/Login';
+import Reservar from './pages/Reservar';
+import PanelUsuario from './pages/PanelUsuario';
+import PanelAdmin from './pages/PanelAdmin';
 
 function App() {
+  const { usuario } = useUsuario();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!usuario ? (
+        <Login />
+      ) : (
+        <>
+          <Reservar />
+          <PanelUsuario />
+          {usuario.email === 'admin@turnofacil.com' && <PanelAdmin />}
+        </>
+      )}
     </div>
   );
 }
