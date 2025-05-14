@@ -8,24 +8,26 @@ function PanelUsuario() {
   const [reservas, setReservas] = useState([]);
 
   // Cargar las reservas del usuario
-  useEffect(() => {
-    if (usuario) {
-      const obtenerReservas = async () => {
-        const q = query(
-          collection(db, "reservas"),
-          where("usuario", "==", usuario.email)
-        );
-        const querySnapshot = await getDocs(q);
-        const reservasData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setReservas(reservasData);
-      };
+useEffect(() => {
+  if (usuario) {
+    console.log("Correo del usuario logueado: ", usuario.email); // Verifica el correo
+    const obtenerReservas = async () => {
+      const q = query(
+        collection(db, "reservas"),
+        where("usuario", "==", usuario.email) // Filtramos por el correo del usuario
+      );
+      const querySnapshot = await getDocs(q);
+      const reservasData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setReservas(reservasData);
+    };
 
-      obtenerReservas();
-    }
-  }, [usuario]);
+    obtenerReservas();
+  }
+}, [usuario]);
+
 
   return (
     <div>
