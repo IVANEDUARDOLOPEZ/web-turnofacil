@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useUsuario } from '../context/UsuarioContext'; // Importa el contexto de usuario
+import React, { useState, useEffect, useCallback } from 'react';
+import { useUsuario } from '../context/UsuarioContext'; 
 import { db } from '../services/firebaseConfig';
 import { collection, addDoc, getDocs, query, orderBy, where } from 'firebase/firestore';
 import './Reservar.css';
 
-
 function Reservar() {
-  const { usuario } = useUsuario(); // Aquí obtenemos el usuario
+  const { usuario } = useUsuario(); 
   const [servicio, setServicio] = useState('');
   const [fecha, setFecha] = useState('');
   const [hora, setHora] = useState('');
-  const [reservas, setReservas] = useState([]); // Estado para manejar las reservas
+  const [reservas, setReservas] = useState([]);
 
   // Función para manejar la reserva
   const manejarReserva = async (e) => {
@@ -35,9 +34,8 @@ function Reservar() {
     }
   };
 
-
   // Función para cargar las reservas desde Firestore
-  const cargarReservas = async () => {
+  const cargarReservas = useCallback(async () => {
     if (!usuario || !usuario.email) {
       console.log("No hay usuario logueado.");
       return;
@@ -62,17 +60,17 @@ function Reservar() {
     } catch (error) {
       console.error("Error al cargar las reservas:", error);
     }
-  };
+  }, [usuario]); // Usa usuario como dependencia
 
   // Usamos useEffect para cargar las reservas cuando se monta el componente o cuando el usuario cambie
- useEffect(() => {
-  if (usuario && usuario.email) {
-    console.log("Correo del usuario logueado:", usuario.email);
-    cargarReservas();
-  } else {
-    console.log("Usuario no está logueado o email no disponible.");
-  }
-}, [usuario, cargarReservas]);
+  useEffect(() => {
+    if (usuario && usuario.email) {
+      console.log("Correo del usuario logueado:", usuario.email);
+      cargarReservas();
+    } else {
+      console.log("Usuario no está logueado o email no disponible.");
+    }
+  }, [usuario, cargarReservas]); // Agregar cargarReservas aquí
 
   return (
     <div className="reservar-container">
@@ -94,8 +92,6 @@ function Reservar() {
 
         <button type="submit">Reservar</button>
       </form>
-
-        
     </div>
   );
 }
