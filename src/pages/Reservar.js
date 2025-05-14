@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useUsuario } from '../context/UsuarioContext'; // Importa el contexto de usuario
 import { db } from '../services/firebaseConfig';
 import { collection, addDoc, getDocs, query, orderBy, where } from 'firebase/firestore';
-import { doc, deleteDoc } from 'firebase/firestore';
 import './Reservar.css';
 
 
@@ -66,14 +65,14 @@ function Reservar() {
   };
 
   // Usamos useEffect para cargar las reservas cuando se monta el componente o cuando el usuario cambie
-  useEffect(() => {
-    if (usuario && usuario.email) {
-      console.log("Correo del usuario logueado:", usuario.email);
-      cargarReservas();
-    } else {
-      console.log("Usuario no está logueado o email no disponible.");
-    }
-  }, [usuario]);
+ useEffect(() => {
+  if (usuario && usuario.email) {
+    console.log("Correo del usuario logueado:", usuario.email);
+    cargarReservas();
+  } else {
+    console.log("Usuario no está logueado o email no disponible.");
+  }
+}, [usuario, cargarReservas]);
 
   return (
     <div className="reservar-container">
