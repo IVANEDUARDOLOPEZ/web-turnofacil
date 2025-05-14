@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../services/firebaseConfig';
-import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useUsuario } from '../context/UsuarioContext';
-
 
 function PanelUsuario() {
   const { usuario } = useUsuario(); // Obtenemos el usuario desde el contexto
@@ -28,18 +27,25 @@ function PanelUsuario() {
     }
   }, [usuario]);
 
-  // Cancelar una reserva
-  const cancelarReserva = async (id) => {
-    try {
-      await deleteDoc(doc(db, "reservas", id));
-      alert("Reserva cancelada con éxito.");
-      setReservas(reservas.filter(reserva => reserva.id !== id)); // Elimina la reserva de la lista local
-    } catch (error) {
-      alert("Error al cancelar la reserva: " + error.message);
-    }
-  };
-
-
+  return (
+    <div>
+      <h2>Mis Reservas</h2>
+      {reservas.length > 0 ? (
+        <ul>
+          {reservas.map(reserva => (
+            <li key={reserva.id}>
+              <strong>Servicio:</strong> {reserva.servicio} <br />
+              <strong>Fecha:</strong> {reserva.fecha} <br />
+              <strong>Hora:</strong> {reserva.hora} <br />
+              {/* Aquí puedes agregar un botón de cancelar si lo necesitas */}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No tienes reservas.</p>
+      )}
+    </div>
+  );
 }
 
 export default PanelUsuario;
