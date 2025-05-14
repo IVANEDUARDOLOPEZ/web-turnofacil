@@ -8,8 +8,7 @@ function Reservar() {
   const { usuario } = useUsuario(); 
   const [servicio, setServicio] = useState('');
   const [fecha, setFecha] = useState('');
-  const [hora, setHora] = useState('');
-  const [reservas, setReservas] = useState([]);
+  const [hora, setHora] = useState([]);
 
   // Función para manejar la reserva
   const manejarReserva = async (e) => {
@@ -51,12 +50,6 @@ function Reservar() {
       );
       const querySnapshot = await getDocs(q);
       console.log("Reservas encontradas:", querySnapshot.docs.map(doc => doc.data()));
-
-      const reservasData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setReservas(reservasData);
     } catch (error) {
       console.error("Error al cargar las reservas:", error);
     }
