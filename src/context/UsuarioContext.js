@@ -1,24 +1,32 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth } from '../services/firebaseConfig'; // Asegúrate de que Firebase esté configurado
-import { onAuthStateChanged } from 'firebase/auth';
+// src/context/UsuarioContext.js
+import { createContext, useContext, useState, useEffect } from 'react';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../services/firebaseConfig';
 
 const UsuarioContext = createContext();
 
-export const useUsuario = () => useContext(UsuarioContext);
-
-export const UsuarioProvider = ({ children }) => {
+export function UsuarioProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUsuario(user);
     });
-    return unsubscribe;
+    return () => unsubscribe();
   }, []);
 
+  const cerrarSesion = () => {
+    signOut(auth);
+    setUsuario(null); // También limpiamos el estado
+  };
+
   return (
-    <UsuarioContext.Provider value={{ usuario, setUsuario }}>
+    <UsuarioContext.Provider value={{ usuario, setUsuario, cerrarSesion }}>
       {children}
     </UsuarioContext.Provider>
   );
-};
+}
+
+export function useUsuario() {
+  return useContext(UsuarioContext);
+}

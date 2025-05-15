@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebaseConfig';
+import { useUsuario } from '../context/UsuarioContext'; // Importa el hook aquí
 
-function Login({ setUsuario }) { // Asegúrate de recibir setUsuario aquí
+function Login() {
+  const { setUsuario } = useUsuario(); // Usa el hook para obtener setUsuario del contexto
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [modoRegistro, setModoRegistro] = useState(true);
@@ -28,8 +31,20 @@ function Login({ setUsuario }) { // Asegúrate de recibir setUsuario aquí
     <div style={{ padding: '20px' }}>
       <h2>{modoRegistro ? "Registrarse" : "Iniciar Sesión"}</h2>
       <form onSubmit={manejarSubmit}>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Correo" required /><br />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Contraseña" required /><br />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Correo"
+          required
+        /><br />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Contraseña"
+          required
+        /><br />
         <button type="submit">{modoRegistro ? "Registrar" : "Iniciar Sesión"}</button>
       </form>
       <button onClick={() => setModoRegistro(!modoRegistro)}>

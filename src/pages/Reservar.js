@@ -4,8 +4,10 @@ import { db } from '../services/firebaseConfig';
 import { collection, addDoc, getDocs, query, orderBy, where } from 'firebase/firestore';
 import './Reservar.css';
 
+
+
 function Reservar() {
-  const { usuario } = useUsuario(); 
+  const { usuario, cerrarSesion } = useUsuario(); // ✅ Correcto: dentro del componente
   const [servicio, setServicio] = useState('');
   const [fecha, setFecha] = useState('');
   const [hora, setHora] = useState([]);
@@ -65,6 +67,9 @@ function Reservar() {
     }
   }, [usuario, cargarReservas]); // Agregar cargarReservas aquí
 
+  
+  
+
   return (
     <div className="reservar-container">
       <h2>Reservar turno</h2>
@@ -85,6 +90,10 @@ function Reservar() {
 
         <button type="submit">Reservar</button>
       </form>
+ <div>
+  <button onClick={cerrarSesion}>Cerrar sesión</button>
+</div>
+
     </div>
   );
 }

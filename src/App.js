@@ -7,6 +7,7 @@ import PanelAdmin from './pages/PanelAdmin';
 
 function App() {
   const { usuario } = useUsuario();
+  
 
   return (
     <div>
